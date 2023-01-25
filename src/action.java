@@ -1,36 +1,50 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class action implements ActionListener
 {
 	public static int[] playerPos = new int[9];
 	public static int[] cpuPos = new int[9];
-	public int[] totalPos = new int[9];
+	public static int[] totalPos = new int[9];
 	public static int available = 9;
     
 	static JFrame frame;
     public static JPanel panel;
-    public JButton button1;
-    public JButton button2;
-    public JButton button3;
-    public JButton button4;
-    public JButton button5;
-    public JButton button6;
-    public JButton button7;
-    public JButton button8;
-    public JButton button9;
+    public static JButton button1;
+    public static JButton button2;
+    public static JButton button3;
+    public static JButton button4;
+    public static JButton button5;
+    public static JButton button6;
+    public static JButton button7;
+    public static JButton button8;
+    public static JButton button9;
+    
+    public JButton retryY = new JButton("Yes");
+	public JButton retryN = new JButton("No");
+	
+	static JFrame result;
+	static JPanel finale;
+	static JLabel label;
 	
 	public action()
-	{
+	{		
+		result = new JFrame();
+		finale = new JPanel();
+		label = new JLabel();
+		
 		frame = new JFrame();
 		
 		button1 = new JButton(" ");
@@ -53,6 +67,9 @@ public class action implements ActionListener
 		createButton(button8);
 		createButton(button9);
 		
+		createButton(retryY);
+		createButton(retryN);
+		
 		panel = new JPanel();
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		panel.setLayout(new GridLayout(3, 3, 0, 0));
@@ -71,6 +88,28 @@ public class action implements ActionListener
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("TicTacToe");
 		frame.setVisible(true);
+		
+		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+		int x = (int) (dimension.getWidth() - frame.getWidth()) / 2;
+		int y = (int) (dimension.getHeight() - frame.getHeight()) / 2;
+		int resultx = (int) ((dimension.getWidth() - frame.getWidth()) / 2) - (frame.getWidth() - 100);
+		int winx = (int) ((dimension.getWidth() - frame.getWidth()) / 2) + (frame.getWidth());
+		frame.setLocation(x, y);
+		result.setLocation(resultx, y);
+		checkWin.result.setLocation(winx, y);
+		
+		label.setFont(new Font("Arial", Font.BOLD, 30));
+		label.setForeground(Color.black);
+		label.setHorizontalAlignment(JLabel.CENTER);
+		
+		finale = new JPanel();
+		finale.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		finale.setLayout(new GridLayout(3, 1));
+		
+		result.setSize(500, 500);
+		result.add(finale, BorderLayout.CENTER);
+		result.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		result.setTitle("TicTacToe");
 	}
 	
 	public void createButton(JButton button)
@@ -159,6 +198,31 @@ public class action implements ActionListener
 			buttonNum = 9;
 		}
 		
+		else if(button == retryY)
+		{
+			frame.dispose();
+			checkWin.result.dispose();
+			result.dispose();
+			playerPos = new int[9];
+			cpuPos = new int[9];
+			totalPos = new int[9];
+			available = 9;
+			new checkWin();
+			for(int i = 0; i < 3; i++)
+			{
+				for(int j = 0; j < 3; j++)
+				{
+					board.gameBoard[i][j] = '_';
+				}
+			}
+			new action();
+			return;
+		}
+		else if(button == retryN)
+		{
+			System.exit(1);
+		}
+		
 		if(button.getText() == "X" || button.getText() == "O")
 		{
 			return;
@@ -173,98 +237,113 @@ public class action implements ActionListener
 			checkWin.CheckWin();
 		}
 		
-		
-		//Random rand = new Random();
-	    //int cpuPosition = rand.nextInt(9) + 1;
-	    
 		int cpuPosition = board.findBestMove(board.gameBoard);
 		
-//	    while(check(playerPos, cpuPosition) || check(cpuPos, cpuPosition))
-//	    {
-//	    	if(available == 0)
-//	    	{
-//	    		return;
-//	    	}
-//	    	cpuPosition = rand.nextInt(9) + 1;
-//	    }
-		
-	    switch(cpuPosition)
+		switch(cpuPosition)
 	    {
 	    	case 0:
 	    		break;
 	    	case 1:
-	    		button1.setText("O");
-	    		cpuPos[0] = cpuPosition;
-	    		totalPos[0] = cpuPosition;
+	    		action.button1.setText("O");
+	    		action.cpuPos[0] = cpuPosition;
+	    		action.totalPos[0] = cpuPosition;
 	    		board.UpdateBoardWithCPU(cpuPosition);
-	    		available -= 1;
+	    		action.available -= 1;
 	    		checkWin.CheckWin();
 	    		break;
 	    	case 2:
-	    		button2.setText("O");
-	    		cpuPos[1] = cpuPosition;
-	    		totalPos[1] = cpuPosition;
+	    		action.button2.setText("O");
+	    		action.cpuPos[1] = cpuPosition;
+	    		action.totalPos[1] = cpuPosition;
 	    		board.UpdateBoardWithCPU(cpuPosition);
-	    		available -= 1;
+	    		action.available -= 1;
 	    		checkWin.CheckWin();
 	    		break;
 	    	case 3:
-	    		button3.setText("O");
-	    		cpuPos[2] = cpuPosition;
-	    		totalPos[2] = cpuPosition;
+	    		action.button3.setText("O");
+	    		action.cpuPos[2] = cpuPosition;
+	    		action.totalPos[2] = cpuPosition;
 	    		board.UpdateBoardWithCPU(cpuPosition);
-	    		available -= 1;
+	    		action.available -= 1;
 	    		checkWin.CheckWin();
 	    		break;
 	    	case 4:
-	    		button4.setText("O");
-	    		cpuPos[3] = cpuPosition;
-	    		totalPos[3] = cpuPosition;
+	    		action.button4.setText("O");
+	    		action.cpuPos[3] = cpuPosition;
+	    		action.totalPos[3] = cpuPosition;
 	    		board.UpdateBoardWithCPU(cpuPosition);
-	    		available -= 1;
+	    		action.available -= 1;
 	    		checkWin.CheckWin();
 	    		break;
 	    	case 5:
-	    		button5.setText("O");
-	    		cpuPos[4] = cpuPosition;
-	    		totalPos[4] = cpuPosition;
+	    		action.button5.setText("O");
+	    		action.cpuPos[4] = cpuPosition;
+	    		action.totalPos[4] = cpuPosition;
 	    		board.UpdateBoardWithCPU(cpuPosition);
-	    		available -= 1;
+	    		action.available -= 1;
 	    		checkWin.CheckWin();
 	    		break;
 	    	case 6:
-	    		button6.setText("O");
-	    		cpuPos[5] = cpuPosition;
-	    		totalPos[5] = cpuPosition;
+	    		action.button6.setText("O");
+	    		action.cpuPos[5] = cpuPosition;
+	    		action.totalPos[5] = cpuPosition;
 	    		board.UpdateBoardWithCPU(cpuPosition);
-	    		available -= 1;
+	    		action.available -= 1;
 	    		checkWin.CheckWin();
 	    		break;
 	    	case 7:
-	    		button7.setText("O");
-	    		cpuPos[6] = cpuPosition;
-	    		totalPos[6] = cpuPosition;
+	    		action.button7.setText("O");
+	    		action.cpuPos[6] = cpuPosition;
+	    		action.totalPos[6] = cpuPosition;
 	    		board.UpdateBoardWithCPU(cpuPosition);
-	    		available -= 1;
+	    		action.available -= 1;
 	    		checkWin.CheckWin();
 	    		break;
 	    	case 8:
-	    		button8.setText("O");
-	    		cpuPos[7] = cpuPosition;
-	    		totalPos[7] = cpuPosition;
+	    		action.button8.setText("O");
+	    		action.cpuPos[7] = cpuPosition;
+	    		action.totalPos[7] = cpuPosition;
 	    		board.UpdateBoardWithCPU(cpuPosition);
-	    		available -= 1;
+	    		action.available -= 1;
 	    		checkWin.CheckWin();
 	    		break;
 	    	case 9:
-	    		button9.setText("O");
-	    		cpuPos[8] = cpuPosition;
-	    		totalPos[8] = cpuPosition;
+	    		action.button9.setText("O");
+	    		action.cpuPos[8] = cpuPosition;
+	    		action.totalPos[8] = cpuPosition;
 	    		board.UpdateBoardWithCPU(cpuPosition);
-	    		available -= 1;
+	    		action.available -= 1;
 	    		checkWin.CheckWin();
 	    		break;
 	    }
+	    
+	    if(checkWin.CheckWin())
+	    {			
+			action.label.setText("Retry?");
+			action.finale.add(action.label);
+			action.finale.add(retryY);
+			action.finale.add(retryN);
+			action.result.setVisible(true);
+	    }
+	    
+	    if(checkWin.checkPlayerWin())
+		{
+			checkWin.label.setText("Congratulations you won!");
+			checkWin.finale.add(checkWin.label);
+			checkWin.result.setVisible(true);
+		}
+		else if(checkWin.checkCpuWin())
+		{
+			checkWin.label.setText("CPU Wins!");
+			checkWin.finale.add(checkWin.label);
+			checkWin.result.setVisible(true);
+		}
+		else if(action.available == 0)
+		{
+			checkWin.label.setText("CAT!");
+			checkWin.finale.add(checkWin.label);
+			checkWin.result.setVisible(true);
+		}
 
 	}
 	
@@ -280,4 +359,5 @@ public class action implements ActionListener
         }
         return test;
 	}
+	
 }

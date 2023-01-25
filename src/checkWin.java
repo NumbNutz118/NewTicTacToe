@@ -2,14 +2,28 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
-public class checkWin 
+public class checkWin
 {	
+	public static JFrame result = new JFrame();
+	public static JPanel finale = new JPanel();
+	public static JLabel label = new JLabel();
+	
+	public checkWin()
+	{
+		result = new JFrame();
+		finale = new JPanel();
+		label = new JLabel();
+	}
 	
 	public static boolean checkPlayerWin()
 	{
@@ -235,44 +249,31 @@ public class checkWin
 	}
 	
 	public static boolean CheckWin()
-	{
-		JFrame result = new JFrame();
-		JPanel finale = new JPanel();
-		JLabel label = new JLabel();
+	{					
+		checkWin.label.setFont(new Font("Arial", Font.BOLD, 30));
+		checkWin.label.setForeground(Color.black);
+		checkWin.label.setHorizontalAlignment(JLabel.CENTER);
 		
-		label.setFont(new Font("Arial", Font.BOLD, 30));
-		label.setForeground(Color.black);
-		label.setHorizontalAlignment(JLabel.CENTER);
+		checkWin.finale = new JPanel();
+		checkWin.finale.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		checkWin.finale.setLayout(new GridLayout(1, 0));
 		
-		finale = new JPanel();
-		finale.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		finale.setLayout(new GridLayout(0, 1));
-		
-		result.setSize(500, 500);
-		result.add(finale, BorderLayout.CENTER);
-		result.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		result.setTitle("TicTacToe");
+		checkWin.result.setSize(500, 500);
+		checkWin.result.add(checkWin.finale, BorderLayout.CENTER);
+		checkWin.result.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		checkWin.result.setTitle("TicTacToe");
 		
 		if(checkPlayerWin())
 		{
-			label.setText("Congratulations you won!");
-			finale.add(label);
-			result.setVisible(true);
 			return true;
 		}
 		else if(checkCpuWin())
 		{
-			label.setText("CPU Wins!");
-			finale.add(label);
-			result.setVisible(true);
-			return false;
+			return true;
 		}
 		else if(action.available == 0)
 		{
-			label.setText("CAT!");
-			finale.add(label);
-			result.setVisible(true);
-			return false;
+			return true;
 		}
 		
 		return false;
