@@ -4,10 +4,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -125,8 +121,7 @@ public class action implements ActionListener
 	public void actionPerformed(ActionEvent e) 
 	{
 		JButton button = (JButton) e.getSource();
-		
-		char[][] play = new char[3][3];
+
 		int buttonNum = 0;
 		if(button == button1)
 		{
@@ -270,22 +265,7 @@ public class action implements ActionListener
 	    		checkWin.CheckWin();
 	    		break;
 	    }
-	    
-	    for(int i = 0; i < 9; i++)
-		{
-			System.out.print(cpuPos[i]);
-		}
-	    
-//	    for(int i = 0; i < 3; i++)
-//	    {
-//	    	for(int j = 0; j < 3; j++)
-//	    	{
-//	    		System.out.print(board.gameBoard[i][j]);
-//	    	}
-//	    	System.out.print("\n");
-//	    }
-//	    int bestMove = board.findBestMove(board.gameBoard);
-//	    System.out.print(bestMove);
+
 	}
 	
 	public static boolean check(int[] arr, int toCheckValue)

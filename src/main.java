@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public class main 
 {
 
@@ -7,5 +5,4 @@ public class main
 	{
 		new action();
 	}
-
 }
